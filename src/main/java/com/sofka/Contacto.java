@@ -8,15 +8,21 @@ import lombok.Setter;
 public class Contacto {
     private Integer id;
     private String nombre;
-    private String direccion;
+    private String email;
     private String telefono;
 
-    public Contacto() {}
+    public Contacto(int id, String nombre, String email, String telefono) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.telefono = telefono;
+    }
 
-    public Contacto(Integer id, String nombre, String direccion, String telefono) {
-        this.id        = id;
-        this.nombre    = nombre;
-        this.direccion = direccion;
-        this.telefono  = telefono;
+    @Override
+    public String toString() {
+        return "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", telefono='" + telefono;
     }
 }

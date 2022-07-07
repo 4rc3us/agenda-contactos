@@ -41,4 +41,33 @@ public class InputOutputUtilities {
             }
         }
     }
+
+    public static String askFor(String value, boolean isNumber) {
+        String checkedValue;
+
+        while (true) {
+            try {
+                System.out.print("Por favor digite " + value + " -> ");
+
+                checkedValue = scanner.next();
+
+                if (isNumber) {
+                    Long.parseLong(checkedValue);
+                }
+
+                if (checkedValue.trim().isEmpty()) {
+                    throw new InputMismatchException();
+                }
+
+                return checkedValue;
+            } catch (InputMismatchException | NumberFormatException e) {
+                if (e instanceof InputMismatchException) {
+                    System.out.println(
+                            "\nDigite un valor");
+                } else {
+                    System.out.println("\ndigite un numero valido");
+                }
+            }
+        }
+    }
 }
