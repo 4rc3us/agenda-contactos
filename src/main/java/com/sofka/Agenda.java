@@ -1,17 +1,24 @@
 package com.sofka;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.sofka.utilities.InputOutputUtilities.askFor;
 
 
 public class Agenda {
-    private ArrayList<Contacto> contactos;
+    private final ArrayList<Contacto> contactos;
 
     public Agenda() {
         contactos = new ArrayList<>();
+
+        contactos.add(new Contacto(1, "Lily", "Lily. @yopmail.com", "3142152440"));
+        contactos.add(new Contacto(2, "Karly", "Karly.@yopmail.com", "3750231913"));
+        contactos.add(new Contacto(3, "Jacquetta", "Jacquetta.@yopmail.com", "3237280314"));
+        contactos.add(new Contacto(4, "Heddie", "Heddie.@yopmail.com", "3470355888"));
+        contactos.add(new Contacto(5, "Stacey", "Stacey.@yopmail.com", "3916063602"));
     }
 
     public void agregarContacto() {
@@ -20,10 +27,13 @@ public class Agenda {
         String email = askFor("email", false);
 
         contactos.add(new Contacto(contactos.size() + 1, nombre, email, telefono));
+
+        System.out.println("Contacto agregado");
     }
 
     public void eliminarContacto(Contacto contacto) {
         contactos.remove(contacto);
+        System.out.println("Contacto eliminado");
     }
 
     public void mostrarContactos() {
@@ -32,27 +42,50 @@ public class Agenda {
         }
     }
 
-    public Contacto buscarContacto(String nombre) {
-        // TODO : Pattern matching
-        this.contactos.forEach(contacto -> {
-            if (contacto.getNombre().equals(nombre)) {
-                System.out.println(contacto.getNombre());
+    public List<Contacto> buscarPorNombre(String nombre) {
+        String regex = "^.*(" + nombre + ")+\\s*.*";
+        ArrayList<Contacto> encontrados = new ArrayList<>();
+
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        ArrayList<Matcher> matchers = new ArrayList<>();
+
+        for (Contacto contacto : contactos) {
+            matchers.add(pattern.matcher(contacto.getNombre()));
+        }
+
+        for (int i = 0; i < matchers.size(); i++) {
+            var m = matchers.get(i);
+            if (m.matches()) {
+                encontrados.add(contactos.get(i));
             }
-        });
-        return null;
+        }
+
+        return encontrados;
     }
 
-    public Contacto buscarContacto(String numero, Integer id) {
-        // TODO : Pattern matching
-        this.contactos.forEach(contacto -> {
-            if (contacto.getTelefono().equals(numero)) {
-                System.out.println(contacto);
+    public List<Contacto> buscarPorNumero(String numero) {
+        String regex = "\\d*" + numero + "\\d*";
+
+        ArrayList<Contacto> encontrados = new ArrayList<>();
+
+        Pattern pattern = Pattern.compile(regex);
+        ArrayList<Matcher> matchers = new ArrayList<>();
+
+        for (Contacto contacto : contactos) {
+            matchers.add(pattern.matcher(contacto.getTelefono()));
+        }
+
+        for (int i = 0; i < matchers.size(); i++) {
+            var m = matchers.get(i);
+            if (m.matches()) {
+                encontrados.add(contactos.get(i));
             }
-        });
-        return null;
+        }
+
+        return encontrados;
     }
 
-    public void Modificar(Contacto contacto) {
+    public void modificar(Contacto contacto) {
         int index = contactos.indexOf(contacto);
 
         String nombre = askFor("nombre", false);
@@ -60,6 +93,5 @@ public class Agenda {
         String email = askFor("email", false);
 
         contactos.set(index, new Contacto(contacto.getId(), nombre, telefono, email));
-
     }
 }
