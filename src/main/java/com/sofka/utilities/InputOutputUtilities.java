@@ -1,7 +1,5 @@
 package com.sofka.utilities;
 
-
-import java.lang.reflect.Type;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -21,7 +19,7 @@ public class InputOutputUtilities {
 
                 System.out.print("\n-> ");
 
-                Integer Selection = Integer.parseInt(scanner.next());
+                int Selection = Integer.parseInt(scanner.next());
 
                 if (Selection > options.length || Selection <= 0) {
                     throw new InputMismatchException();
@@ -62,8 +60,7 @@ public class InputOutputUtilities {
                 return checkedValue;
             } catch (InputMismatchException | NumberFormatException e) {
                 if (e instanceof InputMismatchException) {
-                    System.out.println(
-                            "\nDigite un valor");
+                    System.out.println("\nDigite un valor");
                 } else {
                     System.out.println("\ndigite un numero valido");
                 }

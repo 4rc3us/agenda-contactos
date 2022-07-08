@@ -12,17 +12,14 @@ public class Contacto {
     private String telefono;
 
     public Contacto(int id, String nombre, String email, String telefono) {
-        this.id = id;
-        this.nombre = nombre;
-        this.email = email;
+        this.id       = id;
+        this.nombre   = nombre;
+        this.email    = email;
         this.telefono = telefono;
     }
 
     @Override
     public String toString() {
-        return "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", email='" + email + '\'' +
-                ", telefono='" + telefono;
+        return String.format("%-20s %10s %s", nombre, telefono, email);
     }
 }
